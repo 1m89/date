@@ -18,21 +18,23 @@
             --glass-border: rgba(255, 255, 255, 0.3);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
             --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
         [data-theme="dark"] {
-            --bg-primary: #1A1A1A;
+            --bg-primary: #1a1a1a;
             --bg-secondary: #242424;
-            --text-primary: #E8E8E8;
-            --text-secondary: #B8B8B8;
-            --text-tertiary: #888888;
+            --text-primary: #D4D4D4;
+            --text-secondary: #A0A0A0;
+            --text-tertiary: #737373;
+            --accent: #E6AD00;
+            --accent-hover: #CC9900;
             --border: rgba(255, 255, 255, 0.08);
             --glass-bg: rgba(36, 36, 36, 0.7);
             --glass-border: rgba(255, 255, 255, 0.1);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
             --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -42,548 +44,589 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 40px;
         }
 
-        /* 玻璃拟物卡片 */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* 头部 */
+        /* 头部区域 */
         .header {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 32px 40px;
+            text-align: center;
+            margin-bottom: 48px;
+            position: relative;
         }
 
-        .logo {
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
+        .header h1 {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .header-actions {
-            display: flex;
-            gap: 16px;
-            align-items: center;
+        .subtitle {
+            color: var(--text-tertiary);
+            font-size: 14px;
+            letter-spacing: 4px;
         }
 
-        .theme-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--bg-secondary);
-            cursor: pointer;
+        /* 工具栏 */
+        .toolbar {
             display: flex;
-            align-items: center;
+            gap: 12px;
             justify-content: center;
-            font-size: 18px;
-            transition: all 0.3s;
-        }
-
-        .theme-toggle:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: scale(1.05);
-        }
-
-        /* 编辑区 */
-        .editor-section {
-            padding: 48px;
-            min-height: 600px;
-        }
-
-        .editor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-wrap: wrap;
             margin-bottom: 32px;
         }
 
-        .date-display {
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            cursor: pointer;
             font-size: 14px;
-            color: var(--text-secondary);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #2C2C2C;
             font-weight: 500;
         }
 
-        .word-count {
-            font-size: 13px;
-            color: var(--text-tertiary);
+        .btn-primary:hover {
+            background: var(--accent-hover);
         }
 
-        .title-input {
+        /* 玻璃卡片 */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* 编辑器区域 */
+        .editor {
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        input[type="search"] {
             width: 100%;
-            font-size: 32px;
-            font-weight: 600;
-            border: none;
-            background: transparent;
-            color: var(--text-primary);
-            margin-bottom: 24px;
-            padding: 0;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .title-input::placeholder {
-            color: var(--text-tertiary);
-        }
-
-        .title-input:focus {
-            color: var(--accent);
-        }
-
-        /* 标签和情绪 */
-        .meta-bar {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .tag-input {
-            flex: 1;
-            padding: 12px 16px;
+            padding: 16px 20px;
             border: 1px solid var(--border);
             border-radius: 12px;
             background: var(--bg-secondary);
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="search"]:focus,
+        textarea:focus {
             outline: none;
-            transition: all 0.3s;
-        }
-
-        .tag-input:focus {
             border-color: var(--accent);
-            background: var(--bg-primary);
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+            transform: translateY(-1px);
         }
 
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+            line-height: 1.8;
+        }
+
+        .char-count {
+            text-align: right;
+            color: var(--text-tertiary);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        /* 心情选择器 */
         .mood-selector {
             display: flex;
-            gap: 8px;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .mood-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
             background: var(--bg-secondary);
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .mood-btn:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(5deg);
             border-color: var(--accent);
         }
 
         .mood-btn.active {
-            background: var(--accent);
             border-color: var(--accent);
-            transform: scale(1.05);
+            background: rgba(255, 193, 7, 0.1);
+            transform: scale(1.15);
         }
 
-        .content-input {
-            width: 100%;
-            min-height: 400px;
-            border: none;
-            background: transparent;
-            color: var(--text-primary);
-            font-size: 16px;
-            line-height: 1.8;
-            resize: vertical;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .content-input::placeholder {
-            color: var(--text-tertiary);
-        }
-
-        /* 工具栏 */
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-        }
-
-        .tool-group {
-            display: flex;
-            gap: 8px;
-        }
-
-        .tool-btn {
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .tool-btn:hover {
-            background: var(--bg-primary);
-            border-color: var(--accent);
-        }
-
-        .save-btn {
-            padding: 12px 32px;
-            border-radius: 12px;
-            border: none;
-            background: var(--accent);
-            color: #2C2C2C;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .save-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .save-btn:active {
-            transform: translateY(0);
-        }
-
-        /* 侧边栏 */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        /* 搜索 */
-        .search-box {
-            padding: 32px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 14px 20px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.1);
-        }
-
-        /* 视图切换 */
-        .view-tabs {
-            padding: 24px 32px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 8px;
-            padding: 4px;
-            background: var(--bg-secondary);
-            border-radius: 14px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            background: var(--accent);
-            color: #2C2C2C;
-        }
-
-        /* 历史列表 */
-        .history-list {
-            padding: 32px;
-            max-height: 700px;
-            overflow-y: auto;
-        }
-
-        .history-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .history-list::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
-        }
-
-        .diary-item {
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--bg-secondary);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .diary-item:hover {
-            border-color: var(--accent);
-            transform: translateX(4px);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .diary-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .diary-item-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 200px;
-        }
-
-        .diary-item-mood {
-            font-size: 18px;
-        }
-
-        .diary-item-date {
+        .clear-mood {
+            padding: 8px 16px;
             font-size: 12px;
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
             color: var(--text-tertiary);
-            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .diary-item-preview {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+        .clear-mood:hover {
+            background: #ffe6e6;
+            color: #d32f2f;
+            border-color: #d32f2f;
+        }
+
+        /* 标签系统 */
+        .tag-input-wrapper {
+            display: flex;
+            gap: 12px;
             margin-bottom: 12px;
         }
 
-        .diary-item-tags {
+        .tag-input-wrapper input {
+            flex: 1;
+        }
+
+        .quick-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .quick-tag {
+            padding: 6px 14px;
+            font-size: 13px;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-tag:hover {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .tags-display {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--accent);
+            color: #2C2C2C;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            animation: tagIn 0.3s ease;
+        }
+
+        @keyframes tagIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .tag-remove:hover {
+            transform: scale(1.3);
+            color: #d32f2f;
+        }
+
+        /* 图片上传 */
+        .image-upload {
+            position: relative;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        .image-preview-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .image-preview-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        [data-theme="dark"] .image-preview-item img {
+            filter: brightness(0.9);
+        }
+
+        .image-remove {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .image-remove:hover {
+            background: #d32f2f;
+            transform: scale(1.1);
+        }
+
+        /* 自动保存提示 */
+        .save-status {
+            text-align: center;
+            color: var(--text-tertiary);
+            font-size: 13px;
+            margin: 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .save-status::before {
+            content: "🔒";
+        }
+
+        /* 历史日记 */
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .history-header h2 {
+            font-size: 24px;
+            font-weight: 400;
+        }
+
+        /* 搜索和筛选 */
+        .search-filter {
+            margin-bottom: 24px;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .filter-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* 日记列表 */
+        .diary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .diary-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .diary-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .diary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .diary-meta {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .diary-date {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .diary-mood {
+            font-size: 24px;
+        }
+
+        .diary-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .diary-preview {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .diary-tags {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
             margin-bottom: 12px;
         }
 
-        .tag-chip {
-            padding: 4px 10px;
-            background: rgba(255, 193, 7, 0.1);
+        .diary-tag {
+            padding: 4px 12px;
+            background: rgba(255, 193, 7, 0.15);
             color: var(--accent);
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 500;
+            border-radius: 16px;
+            font-size: 12px;
         }
 
-        .diary-item-actions {
+        .diary-actions {
             display: flex;
             gap: 8px;
-            opacity: 0;
-            transition: all 0.3s;
-        }
-
-        .diary-item:hover .diary-item-actions {
-            opacity: 1;
         }
 
         .action-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--border);
+            padding: 8px 16px;
             border-radius: 8px;
-            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
             color: var(--text-secondary);
-            font-size: 12px;
+            font-size: 13px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .action-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
+            transform: translateY(-2px);
         }
 
-        /* 时光轴视图 */
+        .action-btn.delete:hover {
+            border-color: #d32f2f;
+            color: #d32f2f;
+        }
+
+        /* 时光轴模式 */
         .timeline-view {
-            padding: 32px;
-            max-height: 700px;
-            overflow-y: auto;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-view::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
         }
 
         .timeline-item {
             position: relative;
-            padding-left: 32px;
-            padding-bottom: 32px;
-            border-left: 2px solid var(--border);
+            margin-bottom: 32px;
         }
 
-        .timeline-item:last-child {
-            border-left-color: transparent;
-        }
-
-        .timeline-dot {
+        .timeline-item::before {
+            content: '';
             position: absolute;
-            left: -5px;
-            top: 0;
-            width: 8px;
-            height: 8px;
+            left: -34px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
             background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 0 4px var(--glass-bg);
+            box-shadow: 0 0 0 4px var(--bg-primary);
         }
 
-        .timeline-date {
-            font-size: 13px;
-            color: var(--text-tertiary);
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .timeline-content {
-            padding: 16px;
-            background: var(--bg-secondary);
+        /* Toast通知 */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 16px 24px;
             border-radius: 12px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .timeline-content:hover {
-            border-color: var(--accent);
-            transform: translateX(4px);
-        }
-
-        /* 图片预览 */
-        .image-preview {
-            display: flex;
-            gap: 12px;
-            margin-top: 16px;
-            flex-wrap: wrap;
-        }
-
-        .preview-img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .preview-img:hover {
-            transform: scale(1.05);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .preview-img-container {
-            position: relative;
-        }
-
-        .remove-img {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #ff4444;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
             opacity: 0;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .preview-img-container:hover .remove-img {
+        .toast.show {
             opacity: 1;
-        }
-
-        /* 空状态 */
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-tertiary);
-        }
-
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.3;
-        }
-
-        .empty-text {
-            font-size: 14px;
+            transform: translateX(-50%) translateY(0);
         }
 
         /* 模态框 */
         .modal {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: none;
             align-items: center;
             justify-content: center;
+            z-index: 2000;
+            padding: 20px;
         }
 
         .modal.show {
@@ -593,342 +636,621 @@
         .modal-content {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 40px;
+            border: 1px solid var(--glass-border);
+            padding: 32px;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: var(--shadow-lg);
+            animation: modalIn 0.3s ease;
         }
 
-        .modal-title {
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h3 {
             font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 16px;
+            font-weight: 400;
         }
 
-        .modal-text {
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-secondary);
             color: var(--text-secondary);
-            margin-bottom: 32px;
-            line-height: 1.6;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #ffe6e6;
+            color: #d32f2f;
+            transform: rotate(90deg);
         }
 
         .modal-actions {
             display: flex;
             gap: 12px;
-            justify-content: flex-end;
+            margin-top: 24px;
         }
 
-        .modal-btn {
-            padding: 12px 24px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 64px 20px;
+            color: var(--text-tertiary);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        /* 亮度调节 */
+        .brightness-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
             background: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
+            border-radius: 12px;
+            margin-top: 12px;
         }
 
-        .modal-btn:hover {
-            background: var(--bg-primary);
+        .brightness-slider {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border);
+            outline: none;
+            -webkit-appearance: none;
         }
 
-        .modal-btn.primary {
+        .brightness-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
             background: var(--accent);
-            border-color: var(--accent);
-            color: #2C2C2C;
+            cursor: pointer;
         }
 
-        .modal-btn.primary:hover {
-            background: var(--accent-hover);
+        .brightness-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            border: none;
         }
 
         /* 响应式 */
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-
-            .header {
-                grid-column: 1;
-            }
-        }
-
         @media (max-width: 768px) {
             .container {
-                padding: 20px 12px;
-                gap: 20px;
+                padding: 24px 16px;
             }
 
-            .header {
-                padding: 24px;
+            .header h1 {
+                font-size: 36px;
             }
 
-            .editor-section {
-                padding: 24px;
+            .glass-card {
+                padding: 20px;
             }
 
-            .title-input {
-                font-size: 24px;
+            .toolbar {
+                gap: 8px;
             }
 
-            .meta-bar {
-                flex-direction: column;
+            .btn {
+                padding: 10px 16px;
+                font-size: 13px;
             }
-        }
 
-        /* 动画 */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
+            .diary-item {
+                padding: 20px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .timeline-view {
+                padding-left: 30px;
             }
         }
 
-        .fade-in {
-            animation: fadeIn 0.3s ease-out;
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
 
-        /* 加密提示 */
-        .encrypt-badge {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            padding: 10px 16px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: var(--shadow-md);
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
 
-        .encrypt-icon {
-            color: var(--accent);
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-tertiary);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- 头部 -->
-        <header class="glass-card header">
-            <div class="logo">日记</div>
-            <div class="header-actions">
-                <button class="theme-toggle" onclick="toggleTheme()">
-                    <span id="themeIcon">🌙</span>
-                </button>
-                <button class="tool-btn" onclick="exportDiaries()">导出 TXT</button>
-                <button class="tool-btn" onclick="showClearModal()">清空数据</button>
+        <div class="header">
+            <h1>日记</h1>
+            <div class="subtitle">DIARY</div>
+        </div>
+
+        <!-- 工具栏 -->
+        <div class="toolbar">
+            <button class="btn btn-primary" onclick="saveDiary()">💾 保存日记</button>
+            <button class="btn" onclick="exportDiary()">📤 导出TXT</button>
+            <button class="btn" onclick="toggleTimeline()">⏱️ 时光轴</button>
+            <button class="btn" onclick="showClearModal()">🗑️ 清空数据</button>
+            <button class="btn" onclick="toggleTheme()">🌙 夜间模式</button>
+        </div>
+
+        <!-- 编辑器 -->
+        <div class="glass-card editor">
+            <div class="input-group">
+                <label>📅 日期</label>
+                <input type="date" id="diaryDate">
             </div>
-        </header>
 
-        <!-- 编辑区 -->
-        <main class="glass-card editor-section">
-            <div class="editor-header">
-                <div class="date-display" id="currentDate"></div>
-                <div class="word-count">字数：<span id="wordCount">0</span></div>
+            <div class="input-group">
+                <label>✨ 标题</label>
+                <input type="text" id="diaryTitle" placeholder="给今天起个标题吧...">
             </div>
 
-            <input type="text" class="title-input" id="titleInput" placeholder="无题" />
-
-            <div class="meta-bar">
-                <input type="text" class="tag-input" id="tagInput" placeholder="标签（用空格分隔）" />
+            <div class="input-group">
+                <label>😊 今天的心情</label>
                 <div class="mood-selector">
-                    <button class="mood-btn" data-mood="😊" onclick="selectMood('😊')">😊</button>
-                    <button class="mood-btn" data-mood="😢" onclick="selectMood('😢')">😢</button>
-                    <button class="mood-btn" data-mood="😌" onclick="selectMood('😌')">😌</button>
-                    <button class="mood-btn" data-mood="😤" onclick="selectMood('😤')">😤</button>
-                    <button class="mood-btn" data-mood="🤔" onclick="selectMood('🤔')">🤔</button>
+                    <div class="mood-btn" data-mood="😊" onclick="selectMood(this)">😊</div>
+                    <div class="mood-btn" data-mood="😢" onclick="selectMood(this)">😢</div>
+                    <div class="mood-btn" data-mood="😡" onclick="selectMood(this)">😡</div>
+                    <div class="mood-btn" data-mood="😎" onclick="selectMood(this)">😎</div>
+                    <div class="mood-btn" data-mood="🤔" onclick="selectMood(this)">🤔</div>
+                    <button class="clear-mood" onclick="clearMood()">× 清空</button>
                 </div>
             </div>
 
-            <textarea class="content-input" id="contentInput" placeholder="开始书写..."></textarea>
-
-            <div class="image-preview" id="imagePreview"></div>
-
-            <div class="toolbar">
-                <div class="tool-group">
-                    <button class="tool-btn" onclick="triggerImageUpload()">📷 插入图片</button>
-                    <input type="file" id="imageInput" accept="image/*" multiple style="display: none;" onchange="handleImageUpload(event)">
+            <div class="input-group">
+                <label>🏷️ 标签</label>
+                <div class="quick-tags">
+                    <span class="quick-tag" onclick="addQuickTag('日常')">日常</span>
+                    <span class="quick-tag" onclick="addQuickTag('开心')">开心</span>
+                    <span class="quick-tag" onclick="addQuickTag('吐槽')">吐槽</span>
+                    <span class="quick-tag" onclick="addQuickTag('记录')">记录</span>
+                    <span class="quick-tag" onclick="addQuickTag('工作')">工作</span>
+                    <span class="quick-tag" onclick="addQuickTag('生活')">生活</span>
                 </div>
-                <button class="save-btn" onclick="saveDiary()">保存</button>
-            </div>
-        </main>
-
-        <!-- 侧边栏 -->
-        <aside class="sidebar">
-            <!-- 搜索 -->
-            <div class="glass-card search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="搜索日记..." oninput="searchDiaries()" />
-            </div>
-
-            <!-- 视图切换 -->
-            <div class="glass-card view-tabs">
-                <div class="tabs">
-                    <button class="tab active" onclick="switchView('list')">列表</button>
-                    <button class="tab" onclick="switchView('timeline')">时光轴</button>
+                <div class="tag-input-wrapper">
+                    <input type="text" id="tagInput" placeholder="输入自定义标签..." onkeypress="handleTagEnter(event)">
+                    <button class="btn" onclick="addTag()">添加</button>
                 </div>
+                <div class="tags-display" id="tagsDisplay"></div>
             </div>
 
-            <!-- 历史列表 -->
-            <div class="glass-card history-list" id="listView"></div>
+            <div class="input-group">
+                <label>🖼️ 插入图片</label>
+                <input type="file" id="imageInput" accept="image/*" multiple onchange="handleImageUpload(event)">
+                <button class="btn" onclick="document.getElementById('imageInput').click()">📷 选择图片</button>
+                <div class="image-preview-list" id="imagePreviewList"></div>
+            </div>
 
-            <!-- 时光轴 -->
-            <div class="glass-card timeline-view" id="timelineView" style="display: none;"></div>
-        </aside>
-    </div>
+            <div class="input-group">
+                <label>📝 开始书写</label>
+                <textarea id="diaryContent" placeholder="今天有什么想记录的呀～" oninput="updateCharCount()"></textarea>
+                <div class="char-count" id="charCount">字数：0</div>
+            </div>
 
-    <!-- 清空确认模态框 -->
-    <div class="modal" id="clearModal">
-        <div class="modal-content fade-in">
-            <div class="modal-title">确认清空数据？</div>
-            <div class="modal-text">此操作将永久删除所有日记，且无法恢复。请谨慎操作。</div>
-            <div class="modal-actions">
-                <button class="modal-btn" onclick="hideClearModal()">取消</button>
-                <button class="modal-btn primary" onclick="clearAllDiaries()">确认清空</button>
+            <div class="save-status" id="saveStatus">数据已加密存储</div>
+        </div>
+
+        <!-- 搜索和筛选 -->
+        <div class="glass-card search-filter">
+            <div class="input-group">
+                <label>🔍 搜索日记</label>
+                <input type="search" id="searchInput" placeholder="搜索标题或内容..." oninput="searchDiaries()">
+            </div>
+            <div class="filter-chips" id="filterChips">
+                <div class="filter-chip active" data-filter="all" onclick="filterByMood('all')">全部</div>
+                <div class="filter-chip" data-filter="😊" onclick="filterByMood('😊')">😊 开心</div>
+                <div class="filter-chip" data-filter="😢" onclick="filterByMood('😢')">😢 难过</div>
+                <div class="filter-chip" data-filter="😡" onclick="filterByMood('😡')">😡 生气</div>
+                <div class="filter-chip" data-filter="😎" onclick="filterByMood('😎')">😎 酷</div>
+                <div class="filter-chip" data-filter="🤔" onclick="filterByMood('🤔')">🤔 思考</div>
+            </div>
+        </div>
+
+        <!-- 历史日记 -->
+        <div class="glass-card">
+            <div class="history-header">
+                <h2>📚 历史日记</h2>
+            </div>
+            <div class="diary-list" id="diaryList">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📖</div>
+                    <p>暂无日记，开始记录你的生活吧～</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('diaryTitle').focus()">✍️ 写第一篇日记</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 加密提示 -->
-    <div class="encrypt-badge">
-        <span class="encrypt-icon">🔒</span>
-        <span>数据已加密存储</span>
+    <!-- 清空确认模态框 -->
+    <div class="modal" id="clearModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚠️ 确认清空</h3>
+                <button class="modal-close" onclick="hideClearModal()">×</button>
+            </div>
+            <p style="color: var(--text-secondary); line-height: 1.8;">
+                确定要清空所有日记吗？此操作不可恢复，所有数据将被永久删除。
+            </p>
+            <div class="modal-actions">
+                <button class="btn" onclick="hideClearModal()">取消</button>
+                <button class="btn" style="background: #d32f2f; color: white;" onclick="clearAllDiaries()">确认清空</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // 全局状态
-        let currentDiary = {
-            id: null,
-            title: '',
-            content: '',
-            date: '',
-            mood: '',
-            tags: [],
-            images: [],
-            wordCount: 0
-        };
+    <!-- 图片预览模态框 -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3>🖼️ 图片预览</h3>
+                <button class="modal-close" onclick="hideImageModal()">×</button>
+            </div>
+            <img id="modalImage" style="width: 100%; border-radius: 12px;">
+        </div>
+    </div>
 
+    <!-- 导出选项模态框 -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📤 导出选项</h3>
+                <button class="modal-close" onclick="hideExportModal()">×</button>
+            </div>
+            <div style="margin-bottom: 16px;">
+                <label style="display: flex; align-items: center; gap: 8px; padding: 12px; background: var(--bg-secondary); border-radius: 8px; cursor: pointer; margin-bottom: 8px;">
+                    <input type="radio" name="exportType" value="full" checked>
+                    <span>完整导出（包含日期、标题、标签、心情）</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; padding: 12px; background: var(--bg-secondary); border-radius: 8px; cursor: pointer;">
+                    <input type="radio" name="exportType" value="simple">
+                    <span>纯内容导出（仅导出正文内容）</span>
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button class="btn" onclick="hideExportModal()">取消</button>
+                <button class="btn btn-primary" onclick="confirmExport()">确认导出</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast通知 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // 全局变量
         let diaries = [];
-        let currentView = 'list';
+        let currentTags = [];
+        let currentImages = [];
+        let selectedMood = '';
+        let isTimelineView = false;
+        let currentFilter = 'all';
+        let lastSaveTime = null;
 
         // 初始化
-        function init() {
-            updateDate();
+        document.addEventListener('DOMContentLoaded', function() {
             loadDiaries();
-            renderDiaries();
-            setupAutoSave();
-            checkTheme();
+            document.getElementById('diaryDate').valueAsDate = new Date();
+            loadTheme();
+            startAutoSave();
+        });
+
+        // 自动保存
+        function startAutoSave() {
+            setInterval(() => {
+                if (lastSaveTime) {
+                    const seconds = Math.floor((Date.now() - lastSaveTime) / 1000);
+                    const saveStatus = document.getElementById('saveStatus');
+                    if (seconds < 60) {
+                        saveStatus.textContent = `${seconds} 秒前已自动保存`;
+                    } else {
+                        const minutes = Math.floor(seconds / 60);
+                        saveStatus.textContent = `${minutes} 分钟前已自动保存`;
+                    }
+                }
+            }, 1000);
+        }
+
+        // 心情选择
+        function selectMood(element) {
+            const mood = element.dataset.mood;
             
-            // 监听输入
-            document.getElementById('contentInput').addEventListener('input', updateWordCount);
+            // 如果点击已选中的心情，则取消选择
+            if (element.classList.contains('active')) {
+                element.classList.remove('active');
+                selectedMood = '';
+            } else {
+                // 移除其他心情的选中状态
+                document.querySelectorAll('.mood-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // 选中当前心情
+                element.classList.add('active');
+                selectedMood = mood;
+            }
         }
 
-        // 更新日期
-        function updateDate() {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
+        // 清空心情
+        function clearMood() {
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            selectedMood = '';
+            showToast('已清空心情选择');
         }
 
-        // 字数统计
-        function updateWordCount() {
-            const content = document.getElementById('contentInput').value;
-            const count = content.replace(/\s/g, '').length;
-            document.getElementById('wordCount').textContent = count;
-            currentDiary.wordCount = count;
+        // 标签管理
+        function addTag() {
+            const input = document.getElementById('tagInput');
+            const tag = input.value.trim();
+            if (tag && !currentTags.includes(tag)) {
+                currentTags.push(tag);
+                input.value = '';
+                renderTags();
+            }
         }
 
-        // 选择情绪
-        function selectMood(mood) {
-            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            currentDiary.mood = mood;
+        function addQuickTag(tag) {
+            if (!currentTags.includes(tag)) {
+                currentTags.push(tag);
+                renderTags();
+                showToast(`已添加标签：${tag}`);
+            }
         }
 
-        // 图片上传
-        function triggerImageUpload() {
-            document.getElementById('imageInput').click();
+        function removeTag(tag) {
+            currentTags = currentTags.filter(t => t !== tag);
+            renderTags();
         }
 
+        function handleTagEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addTag();
+            }
+        }
+
+        function renderTags() {
+            const container = document.getElementById('tagsDisplay');
+            container.innerHTML = currentTags.map(tag => 
+                `<span class="tag-item">
+                    ${tag}
+                    <span class="tag-remove" onclick="removeTag('${tag}')">×</span>
+                </span>`
+            ).join('');
+        }
+
+        // 图片管理
         function handleImageUpload(event) {
             const files = event.target.files;
-            Array.from(files).forEach(file => {
+            for (let file of files) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    currentDiary.images.push(e.target.result);
-                    renderImagePreview();
+                    currentImages.push(e.target.result);
+                    renderImages();
                 };
                 reader.readAsDataURL(file);
-            });
+            }
         }
 
-        function renderImagePreview() {
-            const container = document.getElementById('imagePreview');
-            container.innerHTML = currentDiary.images.map((img, index) => `
-                <div class="preview-img-container">
-                    <img src="${img}" class="preview-img" onclick="viewImage('${img}')" />
-                    <button class="remove-img" onclick="removeImage(${index})">×</button>
-                </div>
-            `).join('');
+        function renderImages() {
+            const container = document.getElementById('imagePreviewList');
+            container.innerHTML = currentImages.map((img, index) => 
+                `<div class="image-preview-item" onclick="showImagePreview('${img}')">
+                    <img src="${img}" alt="预览图">
+                    <div class="image-remove" onclick="event.stopPropagation(); removeImage(${index})">×</div>
+                </div>`
+            ).join('');
         }
 
         function removeImage(index) {
-            currentDiary.images.splice(index, 1);
-            renderImagePreview();
+            currentImages.splice(index, 1);
+            renderImages();
+            showToast('已删除图片');
         }
 
-        function viewImage(src) {
-            window.open(src, '_blank');
+        function showImagePreview(src) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('imageModal').classList.add('show');
+        }
+
+        function hideImageModal() {
+            document.getElementById('imageModal').classList.remove('show');
+        }
+
+        // 字数统计
+        function updateCharCount() {
+            const content = document.getElementById('diaryContent').value;
+            const count = content.length;
+            document.getElementById('charCount').textContent = `字数：${count}`;
         }
 
         // 保存日记
         function saveDiary() {
-            const title = document.getElementById('titleInput').value.trim() || '无题';
-            const content = document.getElementById('contentInput').value.trim();
-            const tags = document.getElementById('tagInput').value.trim().split(/\s+/).filter(t => t);
+            const date = document.getElementById('diaryDate').value;
+            const title = document.getElementById('diaryTitle').value;
+            const content = document.getElementById('diaryContent').value;
 
-            if (!content) {
-                alert('请输入日记内容');
+            if (!date || !title || !content) {
+                showToast('请填写完整信息！');
                 return;
             }
 
             const diary = {
-                id: currentDiary.id || Date.now(),
-                title: title,
-                content: content,
-                date: new Date().toISOString(),
-                mood: currentDiary.mood || '😊',
-                tags: tags,
-                images: currentDiary.images,
-                wordCount: currentDiary.wordCount
+                id: Date.now(),
+                date,
+                title,
+                content,
+                mood: selectedMood,
+                tags: [...currentTags],
+                images: [...currentImages],
+                timestamp: new Date().toISOString()
             };
 
-            if (currentDiary.id) {
-                // 更新
-                const index = diaries.findIndex(d => d.id === currentDiary.id);
-                diaries[index] = diary;
-            } else {
-                // 新增
-                diaries.unshift(diary);
-            }
-
+            diaries.unshift(diary);
             saveDiaries();
             clearEditor();
             renderDiaries();
-            
-            // 显示保存成功
-            showToast('保存成功');
+            showToast('日记保存成功！');
+            lastSaveTime = Date.now();
+        }
+
+        // 清空编辑器
+        function clearEditor() {
+            document.getElementById('diaryTitle').value = '';
+            document.getElementById('diaryContent').value = '';
+            document.getElementById('tagInput').value = '';
+            document.getElementById('diaryDate').valueAsDate = new Date();
+            currentTags = [];
+            currentImages = [];
+            selectedMood = '';
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            renderTags();
+            renderImages();
+            updateCharCount();
+        }
+
+        // 渲染日记列表
+        function renderDiaries() {
+            const container = document.getElementById('diaryList');
+            let filteredDiaries = diaries;
+
+            // 搜索过滤
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filteredDiaries = filteredDiaries.filter(d => 
+                    d.title.toLowerCase().includes(searchTerm) || 
+                    d.content.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // 心情过滤
+            if (currentFilter !== 'all') {
+                filteredDiaries = filteredDiaries.filter(d => d.mood === currentFilter);
+            }
+
+            if (filteredDiaries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📖</div>
+                        <p>暂无符合条件的日记</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (isTimelineView) {
+                container.innerHTML = filteredDiaries.map(diary => `
+                    <div class="timeline-item">
+                        <div class="diary-item">
+                            <div class="diary-header">
+                                <div class="diary-meta">
+                                    <span class="diary-date">${formatDate(diary.date)}</span>
+                                    ${diary.mood ? `<span class="diary-mood">${diary.mood}</span>` : ''}
+                                </div>
+                            </div>
+                            <div class="diary-title">${diary.title}</div>
+                            <div class="diary-preview">${diary.content.substring(0, 100)}${diary.content.length > 100 ? '...' : ''}</div>
+                            ${diary.tags.length > 0 ? `
+                                <div class="diary-tags">
+                                    ${diary.tags.map(tag => `<span class="diary-tag">${tag}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                            <div class="diary-actions">
+                                <button class="action-btn" onclick="editDiary(${diary.id})">✏️ 编辑</button>
+                                <button class="action-btn delete" onclick="deleteDiary(${diary.id})">🗑️ 删除</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = filteredDiaries.map(diary => `
+                    <div class="diary-item">
+                        <div class="diary-header">
+                            <div class="diary-meta">
+                                <span class="diary-date">${formatDate(diary.date)}</span>
+                                ${diary.mood ? `<span class="diary-mood">${diary.mood}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="diary-title">${diary.title}</div>
+                        <div class="diary-preview">${diary.content.substring(0, 100)}${diary.content.length > 100 ? '...' : ''}</div>
+                        ${diary.tags.length > 0 ? `
+                            <div class="diary-tags">
+                                ${diary.tags.map(tag => `<span class="diary-tag">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        ${diary.images.length > 0 ? `
+                            <div class="image-preview-list" style="margin-top: 12px;">
+                                ${diary.images.slice(0, 3).map(img => `
+                                    <div class="image-preview-item" onclick="showImagePreview('${img}')">
+                                        <img src="${img}" alt="图片">
+                                    </div>
+                                `).join('')}
+                                ${diary.images.length > 3 ? `<div style="display: flex; align-items: center; justify-content: center; color: var(--text-tertiary);">+${diary.images.length - 3}</div>` : ''}
+                            </div>
+                        ` : ''}
+                        <div class="diary-actions">
+                            <button class="action-btn" onclick="editDiary(${diary.id})">✏️ 编辑</button>
+                            <button class="action-btn delete" onclick="deleteDiary(${diary.id})">🗑️ 删除</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
         }
 
         // 编辑日记
@@ -936,195 +1258,48 @@
             const diary = diaries.find(d => d.id === id);
             if (!diary) return;
 
-            currentDiary = { ...diary };
-            document.getElementById('titleInput').value = diary.title;
-            document.getElementById('contentInput').value = diary.content;
-            document.getElementById('tagInput').value = diary.tags.join(' ');
+            document.getElementById('diaryDate').value = diary.date;
+            document.getElementById('diaryTitle').value = diary.title;
+            document.getElementById('diaryContent').value = diary.content;
+            currentTags = [...diary.tags];
+            currentImages = [...diary.images];
+            selectedMood = diary.mood;
+
+            // 更新UI
+            renderTags();
+            renderImages();
+            updateCharCount();
             
+            // 高亮选中的心情
             document.querySelectorAll('.mood-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.mood === diary.mood);
+                if (btn.dataset.mood === selectedMood) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
             });
 
-            renderImagePreview();
-            updateWordCount();
-            
+            // 删除原日记
+            diaries = diaries.filter(d => d.id !== id);
+            saveDiaries();
+            renderDiaries();
+
+            // 滚动到编辑器
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast('已加载日记，修改后保存即可');
         }
 
         // 删除日记
         function deleteDiary(id) {
-            if (!confirm('确定删除这篇日记？')) return;
-            
-            diaries = diaries.filter(d => d.id !== id);
-            saveDiaries();
-            renderDiaries();
-            
-            showToast('删除成功');
-        }
-
-        // 清空编辑器
-        function clearEditor() {
-            currentDiary = {
-                id: null,
-                title: '',
-                content: '',
-                date: '',
-                mood: '',
-                tags: [],
-                images: [],
-                wordCount: 0
-            };
-
-            document.getElementById('titleInput').value = '';
-            document.getElementById('contentInput').value = '';
-            document.getElementById('tagInput').value = '';
-            document.getElementById('imagePreview').innerHTML = '';
-            document.getElementById('wordCount').textContent = '0';
-            document.querySelectorAll('.mood-btn').forEach(btn => btn.classList.remove('active'));
-        }
-
-        // 渲染日记列表
-        function renderDiaries(filter = '') {
-            let filtered = diaries;
-            
-            if (filter) {
-                filtered = diaries.filter(d => 
-                    d.title.toLowerCase().includes(filter.toLowerCase()) ||
-                    d.content.toLowerCase().includes(filter.toLowerCase()) ||
-                    d.tags.some(t => t.toLowerCase().includes(filter.toLowerCase()))
-                );
-            }
-
-            if (currentView === 'list') {
-                renderListView(filtered);
-            } else {
-                renderTimelineView(filtered);
+            if (confirm('确定要删除这篇日记吗？')) {
+                diaries = diaries.filter(d => d.id !== id);
+                saveDiaries();
+                renderDiaries();
+                showToast('日记已删除');
             }
         }
 
-        function renderListView(filtered) {
-            const container = document.getElementById('listView');
-            
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📝</div>
-                        <div class="empty-text">暂无日记</div>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = filtered.map(diary => `
-                <div class="diary-item fade-in" onclick="editDiary(${diary.id})">
-                    <div class="diary-item-header">
-                        <div class="diary-item-title">${diary.title}</div>
-                        <div class="diary-item-mood">${diary.mood}</div>
-                    </div>
-                    <div class="diary-item-date">${formatDate(diary.date)}</div>
-                    <div class="diary-item-preview">${diary.content}</div>
-                    ${diary.tags.length > 0 ? `
-                        <div class="diary-item-tags">
-                            ${diary.tags.map(tag => `<span class="tag-chip">${tag}</span>`).join('')}
-                        </div>
-                    ` : ''}
-                    <div class="diary-item-actions" onclick="event.stopPropagation()">
-                        <button class="action-btn" onclick="editDiary(${diary.id})">编辑</button>
-                        <button class="action-btn" onclick="deleteDiary(${diary.id})">删除</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderTimelineView(filtered) {
-            const container = document.getElementById('timelineView');
-            
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">⏰</div>
-                        <div class="empty-text">暂无日记</div>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = filtered.map(diary => `
-                <div class="timeline-item fade-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">${formatDate(diary.date)}</div>
-                    <div class="timeline-content" onclick="editDiary(${diary.id})">
-                        <div class="diary-item-header">
-                            <div class="diary-item-title">${diary.title}</div>
-                            <div class="diary-item-mood">${diary.mood}</div>
-                        </div>
-                        <div class="diary-item-preview">${diary.content}</div>
-                        ${diary.tags.length > 0 ? `
-                            <div class="diary-item-tags">
-                                ${diary.tags.map(tag => `<span class="tag-chip">${tag}</span>`).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // 搜索
-        function searchDiaries() {
-            const keyword = document.getElementById('searchInput').value;
-            renderDiaries(keyword);
-        }
-
-        // 切换视图
-        function switchView(view) {
-            currentView = view;
-            
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (view === 'list') {
-                document.getElementById('listView').style.display = 'block';
-                document.getElementById('timelineView').style.display = 'none';
-            } else {
-                document.getElementById('listView').style.display = 'none';
-                document.getElementById('timelineView').style.display = 'block';
-            }
-            
-            renderDiaries();
-        }
-
-        // 导出
-        function exportDiaries() {
-            if (diaries.length === 0) {
-                alert('暂无日记可导出');
-                return;
-            }
-
-            let content = '我的日记\n\n';
-            diaries.forEach(diary => {
-                content += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-                content += `标题：${diary.title}\n`;
-                content += `日期：${formatDate(diary.date)}\n`;
-                content += `心情：${diary.mood}\n`;
-                if (diary.tags.length > 0) {
-                    content += `标签：${diary.tags.join(', ')}\n`;
-                }
-                content += `字数：${diary.wordCount}\n\n`;
-                content += `${diary.content}\n\n`;
-            });
-
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `我的日记_${new Date().toLocaleDateString()}.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showToast('导出成功');
-        }
-
-        // 清空数据
+        // 清空所有日记
         function showClearModal() {
             document.getElementById('clearModal').classList.add('show');
         }
@@ -1136,10 +1311,88 @@
         function clearAllDiaries() {
             diaries = [];
             saveDiaries();
-            clearEditor();
             renderDiaries();
             hideClearModal();
-            showToast('已清空所有数据');
+            showToast('所有日记已清空');
+        }
+
+        // 导出功能
+        function exportDiary() {
+            if (diaries.length === 0) {
+                showToast('暂无日记可导出');
+                return;
+            }
+            document.getElementById('exportModal').classList.add('show');
+        }
+
+        function hideExportModal() {
+            document.getElementById('exportModal').classList.remove('show');
+        }
+
+        function confirmExport() {
+            const exportType = document.querySelector('input[name="exportType"]:checked').value;
+            let content = '';
+
+            if (exportType === 'full') {
+                content = diaries.map(diary => {
+                    let text = `日期：${diary.date}\n`;
+                    text += `标题：${diary.title}\n`;
+                    if (diary.mood) text += `心情：${diary.mood}\n`;
+                    if (diary.tags.length > 0) text += `标签：${diary.tags.join(', ')}\n`;
+                    text += `\n${diary.content}\n`;
+                    text += '\n' + '='.repeat(50) + '\n\n';
+                    return text;
+                }).join('');
+            } else {
+                content = diaries.map(diary => diary.content).join('\n\n' + '='.repeat(50) + '\n\n');
+            }
+
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `我的日记_${new Date().toISOString().split('T')[0]}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            hideExportModal();
+            showToast('导出成功！');
+        }
+
+        // 时光轴切换
+        function toggleTimeline() {
+            isTimelineView = !isTimelineView;
+            const list = document.getElementById('diaryList');
+            
+            if (isTimelineView) {
+                list.classList.add('timeline-view');
+                showToast('已切换到时光轴模式');
+            } else {
+                list.classList.remove('timeline-view');
+                showToast('已切换到列表模式');
+            }
+            
+            renderDiaries();
+        }
+
+        // 搜索功能
+        function searchDiaries() {
+            renderDiaries();
+        }
+
+        // 心情筛选
+        function filterByMood(mood) {
+            currentFilter = mood;
+            
+            // 更新筛选按钮状态
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.filter === mood) {
+                    chip.classList.add('active');
+                }
+            });
+            
+            renderDiaries();
         }
 
         // 主题切换
@@ -1147,98 +1400,65 @@
             const html = document.documentElement;
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            showToast(newTheme === 'dark' ? '已切换到夜间模式' : '已切换到日间模式');
         }
 
-        function checkTheme() {
+        function loadTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeIcon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
         }
 
-        // 存储（简单加密）
+        // 存储管理
         function saveDiaries() {
             const encrypted = btoa(encodeURIComponent(JSON.stringify(diaries)));
-            localStorage.setItem('diaries_encrypted', encrypted);
+            localStorage.setItem('diaries', encrypted);
+            lastSaveTime = Date.now();
         }
 
         function loadDiaries() {
             try {
-                const encrypted = localStorage.getItem('diaries_encrypted');
+                const encrypted = localStorage.getItem('diaries');
                 if (encrypted) {
                     diaries = JSON.parse(decodeURIComponent(atob(encrypted)));
+                    renderDiaries();
                 }
             } catch (e) {
-                console.error('数据加载失败', e);
-                diaries = [];
+                console.error('加载日记失败', e);
             }
-        }
-
-        // 自动保存
-        function setupAutoSave() {
-            let timeout;
-            const inputs = ['titleInput', 'contentInput', 'tagInput'];
-            
-            inputs.forEach(id => {
-                document.getElementById(id).addEventListener('input', () => {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => {
-                        // 这里可以添加自动保存逻辑
-                        console.log('自动保存...');
-                    }, 2000);
-                });
-            });
         }
 
         // 工具函数
         function formatDate(dateString) {
             const date = new Date(dateString);
-            const now = new Date();
-            const diff = now - date;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-            if (days === 0) {
-                return '今天 ' + date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-            } else if (days === 1) {
-                return '昨天 ' + date.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-            } else if (days < 7) {
-                return days + '天前';
-            } else {
-                return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
-            }
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            const weekday = weekdays[date.getDay()];
+            return `${year}年${month}月${day}日 ${weekday}`;
         }
 
         function showToast(message) {
-            const toast = document.createElement('div');
+            const toast = document.getElementById('toast');
             toast.textContent = message;
-            toast.style.cssText = `
-                position: fixed;
-                top: 24px;
-                left: 50%;
-                transform: translateX(-50%);
-                padding: 12px 24px;
-                background: var(--accent);
-                color: #2C2C2C;
-                border-radius: 12px;
-                font-size: 14px;
-                font-weight: 600;
-                box-shadow: var(--shadow-md);
-                z-index: 2000;
-                animation: fadeIn 0.3s ease-out;
-            `;
-            document.body.appendChild(toast);
+            toast.classList.add('show');
             setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(-50%) translateY(-10px)';
-                toast.style.transition = 'all 0.3s';
-                setTimeout(() => toast.remove(), 300);
-            }, 2000);
+                toast.classList.remove('show');
+            }, 3000);
         }
 
-        // 启动
-        init();
+        // 点击模态框外部关闭
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            });
+        });
     </script>
 </body>
 </html>

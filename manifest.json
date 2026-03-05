@@ -1,0 +1,21 @@
+{
+  "name": "记录",
+  "short_name": "记录",
+  "description": "记录日常",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#8FA5AE",
+  "theme_color": "#F5F1E8",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

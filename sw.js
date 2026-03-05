@@ -1,9 +1,7 @@
-// 在文件最开头，先定义一个变量存你的仓库名
-const GHPATH = '/date';
 const CACHE_NAME = 'my-site-cache-v1';
 const urlsToCache = [
-  '${GHPATH}/',
-  '${GHPATH}/index.html',
+  '/date/',
+  '/date/index.html',
 ];
 
 self.addEventListener('install', event => {
